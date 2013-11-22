@@ -1,6 +1,18 @@
 <?
 /*
-The table structure already exists as eveIcons:
+
+
+The table structure should be:
+
+CREATE TABLE eveIcons (
+  iconID int(11) NOT NULL,
+  iconFile varchar(500) NOT NULL,
+  description text NOT NULL,
+  PRIMARY KEY (iconID)
+);
+
+
+
 */
 
 
