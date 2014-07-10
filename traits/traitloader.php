@@ -7,7 +7,7 @@ The table structure is:
 CREATE TABLE invTraits (
   typeID int(11) DEFAULT NULL,
   skillID int(11) DEFAULT NULL,
-  bonus int(11) DEFAULT NULL,
+  bonus DOUBLE DEFAULT NULL,
   bonusText text,
   unitID int(11) DEFAULT NULL
 );
@@ -17,9 +17,9 @@ CREATE TABLE invTraits (
 
 $dbh = new PDO('mysql:host=localhost;dbname=eve', 'eve', 'eve');
 
-
-
-$traitsql="insert into sderubicon11.invTraits
+$database="sdebeta";
+$dbh->beginTransaction();
+$traitsql="insert into $database.invTraits
 (typeID,skillID,bonus,bonusText,unitID)values (:typeid,:skillid,:bonus,:bonustext,:unitid)";
 
 $traitstmt=$dbh->prepare($traitsql);
@@ -47,3 +47,4 @@ foreach ($typeids as $typeid => $data) {
         }
     }
 }
+$dbh->commit();
