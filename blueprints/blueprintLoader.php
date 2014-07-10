@@ -22,7 +22,8 @@ TODO: Add extra the industryActivityType static here.
 
 $dbh = new PDO('mysql:host=localhost;dbname=eve', 'eve', 'eve');
 $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-$database="industry";
+$database="sdebeta";
+$dbh->beginTransaction();
 
 $blueprintsql="insert into $database.industryBlueprints(typeID,maxProductionLimit)
     values (:typeID,:maxProductionLimit)";
@@ -109,3 +110,5 @@ foreach ($blueprints as $typeid => $data) {
         }
     }
 }
+
+$dbh->commit();
