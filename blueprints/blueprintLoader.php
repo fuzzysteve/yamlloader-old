@@ -12,7 +12,7 @@ quantity int,index(typeID),index(typeID,activityID));
 create table industryActivitySkills(typeID int,activityID int,skillID int,level int,
 index(typeID),index(typeID,activityID));
 create table industryActivityProbabilities(typeID int,activityID int,productTypeID int,
-probability decimal,index(typeID),index(typeID,activityID),index(productTypeID));
+probability decimal(3,2),index(typeID),index(typeID,activityID),index(productTypeID));
 
 */
 
