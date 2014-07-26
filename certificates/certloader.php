@@ -36,12 +36,11 @@ The 'recommeded' data is being ignored, as it's a replica of the masteries data,
 
 */
 
-
+require_once("../config.php");
 $dbh = new PDO('mysql:host=localhost;dbname=eve', 'eve', 'eve');
-$database="sdebeta";
 $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $dbh->beginTransaction();
-$certificates=yaml_parse_file("certificates.yaml");
+$certificates=yaml_parse_file("../certificates.yaml");
 
 $certsql="insert into  $database.certCerts (certID,description,groupid,name)
 values (:certid,:description,:groupid,:name)";
@@ -72,7 +71,7 @@ foreach ($certificates as $certid => $certificate) {
 }
 
 
-$typeids=yaml_parse_file("typeIDs.yaml");
+$typeids=yaml_parse_file("../typeIDs.yaml");
 
 $masterysql="insert into   $database.certMasteries(typeid,masterylevel,certid) values (:typeid,:level,:certid)";
 $masterystmt=$dbh->prepare($masterysql);

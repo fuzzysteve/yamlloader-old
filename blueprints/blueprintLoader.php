@@ -15,11 +15,10 @@ create table industryActivityProbabilities(typeID int,activityID int,productType
 probability decimal(3,2),index(typeID),index(typeID,activityID),index(productTypeID));
 
 */
-
+require_once("../config.php");
 
 $dbh = new PDO('mysql:host=localhost;dbname=eve', 'eve', 'eve');
 $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-$database="sdebeta";
 $dbh->beginTransaction();
 
 $blueprintsql="insert into $database.industryBlueprints(typeID,maxProductionLimit)
@@ -48,7 +47,7 @@ $activityprobabilitiesstmt=$dbh->prepare($activityprobabilitiessql);
 
 
 
-$blueprints=yaml_parse_file("blueprints.yaml");
+$blueprints=yaml_parse_file("../blueprints.yaml");
 
 foreach ($blueprints as $typeid => $data) {
     $blueprintstmt->execute(array(":typeID"=>$typeid,":maxProductionLimit"=>$data["maxProductionLimit"]));

@@ -17,10 +17,9 @@ CREATE TABLE eveIcons (
 
 
 $dbh = new PDO('mysql:host=localhost;dbname=eve', 'eve', 'eve');
+require_once("../config.php");
 
-$database="sdebeta";
-
-$typeids=yaml_parse_file("iconIDs.yaml");
+$typeids=yaml_parse_file("../iconIDs.yaml");
 $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $iconsql="insert into $database.eveIcons (iconid,description,iconFile) values (:typeid,:description,:iconfile) on duplicate key update iconFile=:iconfile";
 $iconnodescsql="insert into $database.eveIcons (iconid,iconFile) values (:typeid,:iconfile) on duplicate key update iconFile=:iconfile";

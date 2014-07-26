@@ -1,0 +1,2 @@
+<?php
+$database="sdecrius1";

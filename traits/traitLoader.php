@@ -16,8 +16,7 @@ CREATE TABLE invTraits (
 
 
 $dbh = new PDO('mysql:host=localhost;dbname=eve', 'eve', 'eve');
-
-$database="sdebeta";
+require_once("../config.php");
 $dbh->beginTransaction();
 $traitsql="insert into $database.invTraits
 (typeID,skillID,bonus,bonusText,unitID)values (:typeid,:skillid,:bonus,:bonustext,:unitid)";
@@ -25,7 +24,7 @@ $traitsql="insert into $database.invTraits
 $traitstmt=$dbh->prepare($traitsql);
 
 
-$typeids=yaml_parse_file("typeIDs.yaml");
+$typeids=yaml_parse_file("../typeIDs.yaml");
 
 foreach ($typeids as $typeid => $data) {
     if (isset($data["traits"])) {
