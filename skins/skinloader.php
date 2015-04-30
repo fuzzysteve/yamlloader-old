@@ -6,7 +6,7 @@ create table skinLicense (licenseTypeID int primary key,duration int ,skinID int
 create table skinMaterials(skinMaterialID int primary key,material varchar(40),
 displayNameID int,colorWindow varchar(6),colorPrimary varchar(6),colorSecondary varchar(6),colorHull varchar (6));
 create table skins (skinID int primary key,internalName varchar(70),skinMaterialID int);
-
+create table skinShip (skinID int,typeID int,index (typeID),index(skinID));
 
 
 */
@@ -22,6 +22,8 @@ $skinLicenses=yaml_parse_file("../skinLicenses.yaml");
 
 $skinsql="insert into  $database.skins (skinID,internalName,skinMaterialID)
 values (:skinid,:internalname,:skinmaterialid)";
+$skinshipsql="insert into $database.skinShip (skinid,typeid) values (:skinid,:typeid)";
+
 $materialsql=<<<EOS
 insert into  $database.skinMaterials 
 (skinMaterialID,material,displayNameID,colorWindow,colorPrimary,colorSecondary,colorHull) 
@@ -31,7 +33,10 @@ EOS;
 $licensesql="insert into  $database.skinLicense (licenseTypeID,duration,skinID) 
 values (:licensetypeid,:duration,:skinid)";
 
+
+
 $skinstmt=$dbh->prepare($skinsql);
+$skinshipstmt=$dbh->prepare($skinshipsql);
 $materialstmt=$dbh->prepare($materialsql);
 $licensestmt=$dbh->prepare($licensesql);
 
@@ -41,6 +46,12 @@ foreach ($skins as $skinid => $skin) {
         ":internalname" => $skin["internalName"],
         ":skinmaterialid" => $skin["skinMaterialID"]
         ));
+    foreach ($skin["types"] as $typeid) {
+        $skinshipstmt->execute(array(
+            ":skinid" => $skinid,
+            ":typeid" => $typeid
+        ));
+    }
 }
 
 foreach ($skinmaterials as $skinmaterialid => $material) {
