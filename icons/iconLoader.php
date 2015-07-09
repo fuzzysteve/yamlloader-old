@@ -32,7 +32,7 @@ $iconnodescstmt=$dbh->prepare($iconnodescsql);
 
 
 foreach ($typeids as $typeid => $details) {
-    echo "$typeid\n";
+#    echo "$typeid\n";
     if (isset($details["description"])) {
         $iconstmt->execute(array(":typeid"=>$typeid,":description"=>$details["description"],":iconfile"=>$details["iconFile"]));
     } else {

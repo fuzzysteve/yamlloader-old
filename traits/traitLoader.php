@@ -40,7 +40,7 @@ foreach ($typeids as $typeid => $data) {
                     ":typeid"=>$typeid,
                     ":skillid"=>$trait,
                     ":bonus"=>$detail["bonus"],
-                    ":bonustext"=>$detail["bonusText"],
+                    ":bonustext"=>$detail["bonusText"]["en"],
                     ":unitid"=>$detail["unitID"]));
             }
         }

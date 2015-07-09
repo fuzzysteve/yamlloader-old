@@ -13,7 +13,8 @@ create table industryActivitySkills(typeID int,activityID int,skillID int,level 
 index(typeID),index(typeID,activityID));
 create table industryActivityProbabilities(typeID int,activityID int,productTypeID int,
 probability decimal(3,2),index(typeID),index(typeID,activityID),index(productTypeID));
-
+create table industryActivityRaces(typeID int,activityID tinyint,productTypeID int,
+raceID tinyint,index(typeID),index(typeID,activityID),index(productTypeID));
 */
 require_once("../config.php");
 
@@ -28,8 +29,8 @@ $activitysql="insert into $database.industryActivity(typeID,time,activityID)
     values (:typeID,:time,:activityID)";
 $activitystmt=$dbh->prepare($activitysql);
 $activitymaterialsql="insert into $database.industryActivityMaterials
-    (typeID,activityID,materialTypeID,quantity,consume)
-    values (:typeID,:activityID,:materialTypeID,:quantity,:consume)";
+    (typeID,activityID,materialTypeID,quantity)
+    values (:typeID,:activityID,:materialTypeID,:quantity)";
 $activitymaterialstmt=$dbh->prepare($activitymaterialsql);
 $activityproductssql="insert into $database.industryActivityProducts
     (typeID,activityID,productTypeID,quantity)
@@ -43,8 +44,7 @@ $activityprobabilitiessql="insert into $database.industryActivityProbabilities
     values (:typeID,:activityID,:productTypeID,:probability)";
 $activityprobabilitiesstmt=$dbh->prepare($activityprobabilitiessql);
 
-
-
+$activityArray=array("copying"=>5,"manufacturing"=>1,"research_material"=>4,"research_time"=>3,"invention"=>8);
 
 
 $blueprints=yaml_parse_file("../blueprints.yaml");
@@ -54,7 +54,8 @@ foreach ($blueprints as $typeid => $data) {
 
 
     if (isset($data["activities"])) {
-        foreach ($data["activities"] as $activityid => $activitydetails) {
+        foreach ($data["activities"] as $activityname => $activitydetails) {
+            $activityid=$activityArray[$activityname];
             $activitystmt->execute(array(
                 ":typeID"=>$typeid,
                 ":activityID"=>$activityid,
@@ -62,16 +63,11 @@ foreach ($blueprints as $typeid => $data) {
             ));
             if (isset($activitydetails['materials'])) {
                 foreach ($activitydetails['materials'] as $materialTypeid => $material) {
-                    $consume=1;
-                    if (isset($material['consume']) and !$material['consume']) {
-                        $consume=0;
-                    }
                     $activitymaterialstmt->execute(array(
                         ":typeID"=>$typeid,
                         ":activityID"=>$activityid,
-                        ":materialTypeID"=>$materialTypeid,
-                        ":quantity"=>$material['quantity'],
-                        ":consume"=>$consume
+                        ":materialTypeID"=>$material['typeID'],
+                        ":quantity"=>$material['quantity']
                     ));
                 }
             }
@@ -80,14 +76,14 @@ foreach ($blueprints as $typeid => $data) {
                     $activityproductsstmt->execute(array(
                         ":typeID"=>$typeid,
                         ":activityID"=>$activityid,
-                        ":productTypeID"=>$productTypeid,
+                        ":productTypeID"=>$product['typeID'],
                         ":quantity"=>$product['quantity']
                     ));
                     if (isset($product['probability'])) {
                         $activityprobabilitiesstmt->execute(array(
                               ":typeID"=>$typeid,
                               ":activityID"=>$activityid,
-                              ":productTypeID"=>$productTypeid,
+                              ":productTypeID"=>$product['typeID'],
                               ":probability"=>$product['probability']
                         ));
                     }
@@ -98,7 +94,7 @@ foreach ($blueprints as $typeid => $data) {
                     $activityskillsstmt->execute(array(
                         ":typeID"=>$typeid,
                         ":activityID"=>$activityid,
-                        ":skillID"=>$skillid,
+                        ":skillID"=>$skill['typeID'],
                         ":level"=>$skill['level'],
                     ));
                 }
