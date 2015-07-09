@@ -43,7 +43,7 @@ foreach ($typeids as $typeid => $data) {
             ":portionSize"=>isset($data["portionSize"])?$data["portionSize"]:null,
             ":raceID"=>isset($data["raceID"])?$data["raceID"]:null,
             ":basePrice"=>isset($data["basePrice"])?$data["basePrice"]:null,
-            ":published"=>isset($data["published"])?$data["published"]=='false'?0:1:null,
+            ":published"=>isset($data["published"])?$data["published"]==0?0:1:0,
             ":marketGroupID"=>isset($data["marketGroupID"])?$data["marketGroupID"]:null,
             ":graphicID"=>isset($data["graphicID"])?$data["graphicID"]:null,
             ":iconID"=>isset($data["iconID"])?$data["iconID"]:null,
