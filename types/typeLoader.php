@@ -4,9 +4,9 @@ The table structure is:
 
 
 */
-ini_set('memory_limit', '256M');
 
 $dbh = new PDO('mysql:host=localhost;dbname=eve', 'eve', 'eve');
+$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 require_once("../config.php");
 $dbh->beginTransaction();
 $typesql="insert into $database.invTypes
@@ -43,7 +43,7 @@ foreach ($typeids as $typeid => $data) {
             ":portionSize"=>isset($data["portionSize"])?$data["portionSize"]:null,
             ":raceID"=>isset($data["raceID"])?$data["raceID"]:null,
             ":basePrice"=>isset($data["basePrice"])?$data["basePrice"]:null,
-            ":published"=>isset($data["published"])?$data["published"]:null,
+            ":published"=>isset($data["published"])?$data["published"]=='false'?0:1:null,
             ":marketGroupID"=>isset($data["marketGroupID"])?$data["marketGroupID"]:null,
             ":graphicID"=>isset($data["graphicID"])?$data["graphicID"]:null,
             ":iconID"=>isset($data["iconID"])?$data["iconID"]:null,

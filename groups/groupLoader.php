@@ -36,11 +36,11 @@ foreach ($groupids as $groupid => $data) {
             ":categoryID"=>isset($data["categoryID"])?$data["categoryID"]:null,
             ":groupName"=>isset($data["name"]["en"])?$data["name"]["en"]:'',
             ":iconID"=>isset($data["iconID"])?$data["iconID"]:null,
-            ":useBasePrice"=>isset($data["useBasePrice"])?$data["useBasePrice"]='false'?0:1:null,
-            ":anchored"=>isset($data["anchored"])?$data["anchored"]='false'?0:1:null,
-            ":anchorable"=>isset($data["anchorable"])?$data["anchorable"]='false'?0:1:null,
-            ":fittableNonSingleton"=>isset($data["fittableNonSingleton"])?$data["fittableNonSingleton"]='false'?0:1:null,
-            ":published"=>isset($data["categoryID"])?$data["categoryID"]:null
+            ":useBasePrice"=>isset($data["useBasePrice"])?$data["useBasePrice"]=='false'?0:1:null,
+            ":anchored"=>isset($data["anchored"])?$data["anchored"]=='false'?0:1:null,
+            ":anchorable"=>isset($data["anchorable"])?$data["anchorable"]=='false'?0:1:null,
+            ":fittableNonSingleton"=>isset($data["fittableNonSingleton"])?$data["fittableNonSingleton"]=='false'?0:1:null,
+            ":published"=>isset($data["published"])?$data["published"]=='false'?0:1:null,
             ));
     foreach ($data["name"] as $languageid => $name) {
         $trnstmt->execute(array(
